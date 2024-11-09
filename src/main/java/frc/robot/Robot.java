@@ -52,6 +52,11 @@ public class Robot extends TimedRobot {
     autoChooser.addOption("Charge Station", ChargeStation);
     
     SmartDashboard.putData("FIELD", field);
+
+    SmartDashboard.putData("Front Left turningMotorPID", drivetrain.frontLeft.m_turningPIDController);
+    SmartDashboard.putData("Front Right turningMotorPID", drivetrain.frontRight.m_turningPIDController);
+    SmartDashboard.putData("Back Left turningMotorPID", drivetrain.backLeft.m_turningPIDController);
+    SmartDashboard.putData("Back Right turningMotorPID", drivetrain.backRight.m_turningPIDController);
   }
 
   @Override
