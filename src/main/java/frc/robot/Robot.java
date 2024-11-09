@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
   private XboxController controller;
-
   // Drivetrain
   private Drivetrain drivetrain;
   private boolean driveSlow = false;
@@ -73,10 +72,13 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Robot Pitch", drivetrain.robotPitch());
     SmartDashboard.putNumber("Robot Roll", drivetrain.robotRoll());
 
-    SmartDashboard.putNumber("LeftFront Pos.", drivetrain.frontLeft.m_turningEncoder.absPosition());
-    SmartDashboard.putNumber("RightFront Pos.", drivetrain.frontRight.m_turningEncoder.absPosition());
-    SmartDashboard.putNumber("LeftBack Pos.", drivetrain.backLeft.m_turningEncoder.absPosition());
-    SmartDashboard.putNumber("RightBack Pos.", drivetrain.backRight.m_turningEncoder.absPosition());
+    
+    SmartDashboard.putNumber("offset", drivetrain.frontLeft.encoderOffset);
+
+    SmartDashboard.putNumber("LeftFront Pos.", drivetrain.frontLeft.m_turningEncoder.rawAbsPosition());
+    SmartDashboard.putNumber("RightFront Pos.", drivetrain.frontRight.m_turningEncoder.rawAbsPosition());
+    SmartDashboard.putNumber("LeftBack Pos.", drivetrain.backLeft.m_turningEncoder.rawAbsPosition());
+    SmartDashboard.putNumber("RightBack Pos.", drivetrain.backRight.m_turningEncoder.rawAbsPosition());
     SmartDashboard.putNumber("LeftFront Vel.", drivetrain.frontLeft.m_driveEncoder.getVelocity());
     SmartDashboard.putNumber("RightFront Vel.", drivetrain.frontRight.m_driveEncoder.getVelocity());
     SmartDashboard.putNumber("LeftBack Vel.", drivetrain.backLeft.m_driveEncoder.getVelocity());
@@ -157,7 +159,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    driveWithXbox(true);
+    driveWithXbox(false);
   }
 
   private void driveWithXbox(boolean fieldRelative) {

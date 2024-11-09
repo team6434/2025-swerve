@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -11,10 +15,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class SwerveModule {
   private static final double kWheelRadius = 0.0508;
@@ -30,6 +30,7 @@ public class SwerveModule {
   public RelativeEncoder m_driveEncoder;
 
   public ThriftyEncoder m_turningEncoder;
+  public double encoderOffset;
 
   // TODO: Gains are for example purposes only - must be determined for your own robot!
   private final PIDController m_drivePIDController = new PIDController(0.00001, 0, 0);
@@ -58,7 +59,7 @@ public class SwerveModule {
       int driveMotorCANChannel,
       int turningMotorCANChannel,
       int turningEncoderChannel,
-      double tunringEncoderOffset) {
+      double turningEncoderOffset) {
     m_driveMotor = new CANSparkMax(driveMotorCANChannel, MotorType.kBrushless);
     m_driveMotor.setInverted(false);
     m_turningMotor = new CANSparkMax(turningMotorCANChannel, MotorType.kBrushless);
@@ -66,8 +67,7 @@ public class SwerveModule {
 
     m_driveEncoder = m_driveMotor.getEncoder();
     m_turningEncoder = new ThriftyEncoder(turningEncoderChannel);
-    m_turningEncoder.setOffset(tunringEncoderOffset);
-
+    encoderOffset = turningEncoderOffset;
 
     // Set the distance per pulse for the drive encoder. We can simply use the
     // distance traveled for one rotation of the wheel divided by the encoder
@@ -93,7 +93,7 @@ public class SwerveModule {
    */
   public SwerveModuleState getState() {
     return new SwerveModuleState(
-        m_driveEncoder.getVelocity(), new Rotation2d(m_turningEncoder.absPosition()));
+        m_driveEncoder.getVelocity(), new Rotation2d(m_turningEncoder.absPosition(encoderOffset)));
   }
 
   /**
@@ -103,7 +103,7 @@ public class SwerveModule {
    */
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(
-        m_driveEncoder.getPosition(), new Rotation2d(m_turningEncoder.absPosition()));
+        m_driveEncoder.getPosition(), new Rotation2d(m_turningEncoder.absPosition(encoderOffset)));
   }
 
   public double getDistance() {
@@ -118,7 +118,7 @@ public class SwerveModule {
   public void setDesiredState(SwerveModuleState desiredState) {
     // Optimize the reference state to avoid spinning further than 90 degrees
     SwerveModuleState state =
-        SwerveModuleState.optimize(desiredState, new Rotation2d(m_turningEncoder.absPosition()));
+        SwerveModuleState.optimize(desiredState, new Rotation2d(m_turningEncoder.absPosition(encoderOffset)));
 
     // Calculate the drive output from the drive PID controller.
     final double driveOutput =
@@ -128,7 +128,7 @@ public class SwerveModule {
 
     // Calculate the turning motor output from the turning PID controller.
     final double turnOutput =
-        m_turningPIDController.calculate(m_turningEncoder.absPosition(), state.angle.getRadians());
+        m_turningPIDController.calculate(m_turningEncoder.absPosition(encoderOffset), state.angle.getRadians());
 
     final double turnFeedforward =
         m_turnFeedforward.calculate(m_turningPIDController.getSetpoint().velocity);

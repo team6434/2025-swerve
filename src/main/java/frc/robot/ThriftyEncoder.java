@@ -14,11 +14,15 @@ public class ThriftyEncoder {
     encoder.setDistancePerRotation(config);
   }
 
-  public double absPosition() {
+  public double rawAbsPosition() {
     return encoder.getAbsolutePosition();
   }
 
-  public void setOffset(double offsetValue) {
-    encoder.setPositionOffset(offsetValue);
+  public double absPosition(double offsetValue) {
+    return encoder.getAbsolutePosition() - offsetValue;
   }
+
+  // public void setOffset(double offsetValue) {
+  //   encoder.setPositionOffset(offsetValue);
+  // }
 }
