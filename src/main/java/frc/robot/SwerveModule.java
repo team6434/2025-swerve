@@ -33,14 +33,14 @@ public class SwerveModule {
   public double encoderOffset;
 
   // TODO: Gains are for example purposes only - must be determined for your own robot!
-  private final PIDController m_drivePIDController = new PIDController(0.00001, 0, 0);
+  private final PIDController m_drivePIDController = new PIDController(0.000001, 0, 0);
 
   // TODO: Gains are for example purposes only - must be determined for your own robot!
   public final ProfiledPIDController m_turningPIDController =
       new ProfiledPIDController(
-          0.0001,
-          0,
-          0,
+          0.00015,
+          0.000025,
+          0.0035,
           new TrapezoidProfile.Constraints(
               kModuleMaxAngularVelocity, kModuleMaxAngularAcceleration));
 
@@ -104,6 +104,10 @@ public class SwerveModule {
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(
         m_driveEncoder.getPosition(), new Rotation2d(m_turningEncoder.absPosition(encoderOffset)));
+  }
+
+  public double getTurningPosition() {
+    return m_turningEncoder.absPosition(encoderOffset);
   }
 
   public double getDistance() {

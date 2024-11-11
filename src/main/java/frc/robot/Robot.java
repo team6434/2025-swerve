@@ -80,10 +80,16 @@ public class Robot extends TimedRobot {
     
     SmartDashboard.putNumber("offset", drivetrain.frontLeft.encoderOffset);
 
-    SmartDashboard.putNumber("LeftFront Pos.", drivetrain.frontLeft.m_turningEncoder.rawAbsPosition());
-    SmartDashboard.putNumber("RightFront Pos.", drivetrain.frontRight.m_turningEncoder.rawAbsPosition());
-    SmartDashboard.putNumber("LeftBack Pos.", drivetrain.backLeft.m_turningEncoder.rawAbsPosition());
-    SmartDashboard.putNumber("RightBack Pos.", drivetrain.backRight.m_turningEncoder.rawAbsPosition());
+    SmartDashboard.putNumber("LeftFront Raw Pos.", drivetrain.frontLeft.m_turningEncoder.rawAbsPosition());
+    SmartDashboard.putNumber("RightFront Raw Pos.", drivetrain.frontRight.m_turningEncoder.rawAbsPosition());
+    SmartDashboard.putNumber("LeftBack Raw Pos.", drivetrain.backLeft.m_turningEncoder.rawAbsPosition());
+    SmartDashboard.putNumber("RightBack Raw Pos.", drivetrain.backRight.m_turningEncoder.rawAbsPosition());
+
+    SmartDashboard.putNumber("LeftFront Pos.", drivetrain.frontLeft.getTurningPosition());
+    SmartDashboard.putNumber("RightFront Pos.", drivetrain.frontRight.getTurningPosition());
+    SmartDashboard.putNumber("LeftBack Pos.", drivetrain.backLeft.getTurningPosition());
+    SmartDashboard.putNumber("RightBack Pos.", drivetrain.backRight.getTurningPosition());
+
     SmartDashboard.putNumber("LeftFront Vel.", drivetrain.frontLeft.m_driveEncoder.getVelocity());
     SmartDashboard.putNumber("RightFront Vel.", drivetrain.frontRight.m_driveEncoder.getVelocity());
     SmartDashboard.putNumber("LeftBack Vel.", drivetrain.backLeft.m_driveEncoder.getVelocity());

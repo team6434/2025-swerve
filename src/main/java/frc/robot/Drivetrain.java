@@ -25,10 +25,10 @@ public class Drivetrain {
   private final Translation2d backRightLocation = new Translation2d(-0.335, -0.335);
 
   // TODO add offsets to each module while all wheels alligned in the same direction (foward)
-  public SwerveModule frontLeft = new SwerveModule(10, 11, 0, 0.5);
-  public SwerveModule frontRight = new SwerveModule(12, 13, 1, 0);
-  public SwerveModule backLeft = new SwerveModule(14, 15, 2, 0);
-  public SwerveModule backRight = new SwerveModule(16, 17, 3, 0);
+  public SwerveModule frontLeft = new SwerveModule(10, 11, 0, 0.62);
+  public SwerveModule frontRight = new SwerveModule(12, 13, 1, 0.23);
+  public SwerveModule backLeft = new SwerveModule(14, 15, 2, 0.95);
+  public SwerveModule backRight = new SwerveModule(16, 17, 3, 0.87);
 
   public AHRS navx = new AHRS(SPI.Port.kMXP);
 
