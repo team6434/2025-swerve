@@ -12,6 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** Represents a swerve drive style drivetrain. */
 public class Drivetrain {
@@ -24,7 +25,6 @@ public class Drivetrain {
   private final Translation2d backLeftLocation = new Translation2d(-0.335, 0.335);
   private final Translation2d backRightLocation = new Translation2d(-0.335, -0.335);
 
-  // TODO add offsets to each module while all wheels alligned in the same direction (foward)
   public SwerveModule frontLeft = new SwerveModule(10, 11, 0, 0.62);
   public SwerveModule frontRight = new SwerveModule(12, 13, 1, 0.23);
   public SwerveModule backLeft = new SwerveModule(14, 15, 2, 0.95);
@@ -48,7 +48,7 @@ public class Drivetrain {
           });
 
   public Drivetrain() {
-    // navx.reset(); // Calibrates the gyro then resets the yaw, pitch, and roll to zero. TODO
+    // navx.reset(); // Calibrates the gyro then resets the yaw, pitch, and roll to zero.
   }
 
   /**
@@ -70,6 +70,16 @@ public class Drivetrain {
     frontRight.setDesiredState(swerveModuleStates[1]);
     backLeft.setDesiredState(swerveModuleStates[2]);
     backRight.setDesiredState(swerveModuleStates[3]);
+
+    SmartDashboard.putNumber("LeftFront Dis.", frontLeft.m_turningEncoder.getDistance());
+    SmartDashboard.putNumber("RightFront Dis.", frontRight.m_turningEncoder.getDistance());
+    SmartDashboard.putNumber("LeftBack Dis.", backLeft.m_turningEncoder.getDistance());
+    SmartDashboard.putNumber("RightBack Dis.", backRight.m_turningEncoder.getDistance());
+    
+    SmartDashboard.putNumber("LeftFront State", swerveModuleStates[0].angle.getRadians());
+    SmartDashboard.putNumber("RightFront State", swerveModuleStates[1].angle.getRadians());
+    SmartDashboard.putNumber("LeftBack State", swerveModuleStates[2].angle.getRadians());
+    SmartDashboard.putNumber("RightBack State", swerveModuleStates[3].angle.getRadians());
   }
 
   /** Updates the field relative position of the robot. */

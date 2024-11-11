@@ -1,9 +1,22 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "AnalogEncoder[0]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
       "/SmartDashboard/Auto Chooser": "String Chooser",
-      "/SmartDashboard/FIELD": "Field2d"
+      "/SmartDashboard/Back Left turningMotorPID": "ProfiledPIDController",
+      "/SmartDashboard/Back Right turningMotorPID": "ProfiledPIDController",
+      "/SmartDashboard/FIELD": "Field2d",
+      "/SmartDashboard/Front Left turningMotorPID": "ProfiledPIDController",
+      "/SmartDashboard/Front Right turningMotorPID": "ProfiledPIDController"
     }
   },
   "NetworkTables Info": {
