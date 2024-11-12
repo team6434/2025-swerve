@@ -85,6 +85,11 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("LeftBack Raw Pos.", drivetrain.backLeft.m_turningEncoder.rawAbsPosition());
     SmartDashboard.putNumber("RightBack Raw Pos.", drivetrain.backRight.m_turningEncoder.rawAbsPosition());
 
+    SmartDashboard.putNumber("LeftFront Dis.", drivetrain.frontLeft.m_turningEncoder.getDistance());
+    SmartDashboard.putNumber("RightFront Dis.", drivetrain.frontRight.m_turningEncoder.getDistance());
+    SmartDashboard.putNumber("LeftBack Dis.", drivetrain.backLeft.m_turningEncoder.getDistance());
+    SmartDashboard.putNumber("RightBack Dis.", drivetrain.backRight.m_turningEncoder.getDistance());
+
     SmartDashboard.putNumber("LeftFront Pos.", drivetrain.frontLeft.getTurningPosition());
     SmartDashboard.putNumber("RightFront Pos.", drivetrain.frontRight.getTurningPosition());
     SmartDashboard.putNumber("LeftBack Pos.", drivetrain.backLeft.getTurningPosition());

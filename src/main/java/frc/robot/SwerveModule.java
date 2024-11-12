@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveModule {
   private static final double kWheelRadius = 0.0508;
@@ -32,13 +33,15 @@ public class SwerveModule {
   public ThriftyEncoder m_turningEncoder;
   public double encoderOffset;
 
+  private double turnOutput;
+
   // TODO: Gains are for example purposes only - must be determined for your own robot!
   private final PIDController m_drivePIDController = new PIDController(0.000001, 0, 0);
 
   // TODO: Gains are for example purposes only - must be determined for your own robot!
   public final ProfiledPIDController m_turningPIDController =
       new ProfiledPIDController(
-          0.00015,
+          0.009, // 0.00015
           0.000025,
           0.0035,
           new TrapezoidProfile.Constraints(
@@ -69,21 +72,23 @@ public class SwerveModule {
     m_turningEncoder = new ThriftyEncoder(turningEncoderChannel);
     encoderOffset = turningEncoderOffset;
 
+    SmartDashboard.putNumber("TurnOutput", turnOutput);
+
     // Set the distance per pulse for the drive encoder. We can simply use the
     // distance traveled for one rotation of the wheel divided by the encoder
     // resolution.
     m_driveEncoder.setPositionConversionFactor(2 * Math.PI * kWheelRadius / kEncoderResolution);
 
-
     // Set the distance (in this case, angle) in radians per pulse for the turning encoder.
     // This is the the angle through an entire rotation (2 * pi) divided by the
     // encoder resolution.
     // m_turningEncoder.setDistancePerPulse(2 * Math.PI / kEncoderResolution);
-    m_turningEncoder.setDistancePerRotation(2 * Math.PI / kEncoderResolution);
+    m_turningEncoder.setDistancePerRotation(360 / kEncoderResolution);
 
     // Limit the PID Controller's input range between -pi and pi and set the input
     // to be continuous.
-    m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
+    // m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
+    m_turningPIDController.enableContinuousInput(0, 360);
   }
 
   /**
@@ -131,8 +136,8 @@ public class SwerveModule {
     final double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond);
 
     // Calculate the turning motor output from the turning PID controller.
-    final double turnOutput =
-        m_turningPIDController.calculate(m_turningEncoder.absPosition(encoderOffset), state.angle.getRadians());
+    turnOutput =
+        m_turningPIDController.calculate(m_turningEncoder.absPosition(encoderOffset), state.angle.getDegrees());
 
     final double turnFeedforward =
         m_turnFeedforward.calculate(m_turningPIDController.getSetpoint().velocity);

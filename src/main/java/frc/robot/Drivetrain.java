@@ -70,16 +70,11 @@ public class Drivetrain {
     frontRight.setDesiredState(swerveModuleStates[1]);
     backLeft.setDesiredState(swerveModuleStates[2]);
     backRight.setDesiredState(swerveModuleStates[3]);
-
-    SmartDashboard.putNumber("LeftFront Dis.", frontLeft.m_turningEncoder.getDistance());
-    SmartDashboard.putNumber("RightFront Dis.", frontRight.m_turningEncoder.getDistance());
-    SmartDashboard.putNumber("LeftBack Dis.", backLeft.m_turningEncoder.getDistance());
-    SmartDashboard.putNumber("RightBack Dis.", backRight.m_turningEncoder.getDistance());
     
-    SmartDashboard.putNumber("LeftFront State", swerveModuleStates[0].angle.getRadians());
-    SmartDashboard.putNumber("RightFront State", swerveModuleStates[1].angle.getRadians());
-    SmartDashboard.putNumber("LeftBack State", swerveModuleStates[2].angle.getRadians());
-    SmartDashboard.putNumber("RightBack State", swerveModuleStates[3].angle.getRadians());
+    SmartDashboard.putNumber("LeftFront State", swerveModuleStates[0].angle.getDegrees());
+    SmartDashboard.putNumber("RightFront State", swerveModuleStates[1].angle.getDegrees());
+    SmartDashboard.putNumber("LeftBack State", swerveModuleStates[2].angle.getDegrees());
+    SmartDashboard.putNumber("RightBack State", swerveModuleStates[3].angle.getDegrees());
   }
 
   /** Updates the field relative position of the robot. */
